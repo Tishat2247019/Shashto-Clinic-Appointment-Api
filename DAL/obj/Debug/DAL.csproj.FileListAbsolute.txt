@@ -1,0 +1,15 @@
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\bin\Debug\DAL.dll.config
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\bin\Debug\DAL.dll
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\bin\Debug\DAL.pdb
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\bin\Debug\EntityFramework.dll
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\bin\Debug\EntityFramework.SqlServer.dll
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\bin\Debug\EntityFramework.xml
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\bin\Debug\EntityFramework.SqlServer.xml
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.csproj.CopyComplete
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.dll
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.pdb
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.InitDb.resources
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.addkeypatient.resources
