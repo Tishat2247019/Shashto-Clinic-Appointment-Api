@@ -13,3 +13,7 @@ D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.pdb
 D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.InitDb.resources
 D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
 D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.addkeypatient.resources
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.updateValidationKeys.resources
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.AddAuthLogin.resources
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.chnagetokenlogic.resources
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.updatelogin.resources

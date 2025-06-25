@@ -10,11 +10,11 @@ namespace DAL.Repos
 {
     internal class PatientRepo : Repo, IRepo<Patient, int, bool>
     {
-        public bool Create(Patient obj)
-        {
-            db.Patients.Add(obj);
-            return db.SaveChanges() > 0;
-        }
+         public bool Create(Patient obj)
+         {
+             db.Patients.Add(obj);
+             return db.SaveChanges() > 0;
+         }
 
         public void Delete(int id)
         {
