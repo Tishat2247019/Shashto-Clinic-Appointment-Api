@@ -1,0 +1,72 @@
+﻿using DAL.EF.Tables;
+using DAL.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DAL.Repos
+{
+    internal class AppointmentRepo : Repo, IAppointmentRepo
+    {
+        public bool Create(Appointment obj)
+        {
+            db.Appointments.Add(obj);
+            return db.SaveChanges() > 0;
+        }
+
+        public void Delete(int id)
+        {
+            var existing = Get(id);
+            db.Appointments.Remove(existing);
+            db.SaveChanges();
+        }
+
+        public List<Appointment> Get()
+        {
+            return db.Appointments.ToList();
+        }
+
+        public Appointment Get(int id)
+        {
+            return db.Appointments.Find(id);
+        }
+
+        public bool Update(Appointment obj)
+        {
+            var existing = Get(obj.Id);
+            db.Entry(existing).CurrentValues.SetValues(obj);
+            return db.SaveChanges() > 0;
+        }
+
+        // Extra methods (optional for now)
+        public List<Appointment> GetByDoctor(int doctorId)
+        {
+            return db.Appointments.Where(a => a.DoctorId == doctorId).ToList();
+        }
+
+        public List<Appointment> GetByPatient(int patientId)
+        {
+            return db.Appointments.Where(a => a.PatientId == patientId).ToList();
+        }
+
+        public List<Appointment> GetByDateRange(DateTime start, DateTime end)
+        {
+            return db.Appointments.Where(a => a.AppointmentDate >= start && a.AppointmentDate <= end).ToList();
+        }
+
+        public bool IsSlotAvailable(int doctorId, DateTime appointmentTime)
+        {
+            return !db.Appointments.Any(a => a.DoctorId == doctorId && a.AppointmentDate == appointmentTime);
+        }
+
+        public Appointment GetDetailed(int id)
+        {
+            return db.Appointments
+                     .Include("Patient")
+                     .Include("Doctor")
+                     .FirstOrDefault(a => a.Id == id);
+        }
+    }
+}
