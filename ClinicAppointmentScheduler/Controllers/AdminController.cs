@@ -65,15 +65,37 @@ namespace ClinicAppointmentScheduler.Controllers
         public HttpResponseMessage GetAppointmentStats()
         {
 
-
+            var adminId = (int)Request.Properties["UserId"];
             var stats = AppointmentService.GetStats();
             if (stats != null)
             {
+                AdminLogger.Log(adminId, "showAppointAnalytics", $"Check all the apointments analytics");
                 return Request.CreateResponse(HttpStatusCode.OK, stats);
             }
             else
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Appointsment stats not found");
+
+            }
+        }
+
+        [AdminOnly]
+        [HttpGet]
+        [Route("analytics/patient-engagement")]
+        public HttpResponseMessage GetPatientEngagement()
+        {
+            var adminId = (int)Request.Properties["UserId"];
+            var data = PatientService.GetEngagementStats();
+            if(data != null)
+            {
+                AdminLogger.Log(adminId, "showPatientEngagment", $"Show all patientEngments");
+
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Patient Engagements not found");
 
             }
         }

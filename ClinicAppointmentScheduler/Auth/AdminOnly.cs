@@ -38,7 +38,7 @@ namespace ClinicAppointmentScheduler.Auth
             if(tokenDto.UserType != "Admin")
             {
                 actionContext.Response = actionContext.Request
-                    .CreateResponse(HttpStatusCode.Unauthorized, "Onlty admin can access this endpoint");
+                    .CreateResponse(HttpStatusCode.Unauthorized, "Only admin can access this endpoint");
                 return;
             }
 

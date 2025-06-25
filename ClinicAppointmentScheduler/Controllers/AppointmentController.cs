@@ -23,11 +23,26 @@ namespace ClinicAppointmentScheduler.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+        [AdminOnly]
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("admin/get/{id}")]
         public HttpResponseMessage Get(int id)
         {
             var data = AppointmentService.Get(id);
+            if (data == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Appointment not found");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [Logged]
+        [HttpGet]
+        [Route("get/me")]
+        public HttpResponseMessage GetAppointLoggedIn()
+        {
+            var userId = (int)Request.Properties["UserId"];
+            var data = AppointmentService.Get(userId);
             if (data == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Appointment not found");

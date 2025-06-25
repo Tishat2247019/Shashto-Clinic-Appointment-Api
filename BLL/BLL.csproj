@@ -148,7 +148,9 @@
     <Compile Include="DTOs\AppointmentDTO.cs" />
     <Compile Include="DTOs\DoctorDTO.cs" />
     <Compile Include="DTOs\DoctorRegistrationDTO.cs" />
+    <Compile Include="DTOs\DoctorSearchDTO.cs" />
     <Compile Include="DTOs\PatientDTO.cs" />
+    <Compile Include="DTOs\PatientEngagementDTO.cs" />
     <Compile Include="DTOs\PatientRegistratoinDTO.cs" />
     <Compile Include="DTOs\TokenDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -76,5 +76,25 @@ namespace BLL.Services
         {
             DataAccess.DoctorData().Delete(id);
         }
+
+        public static List<DoctorDTO> Search(DoctorSearchDTO filter)
+        {
+            var doctors = DataAccess.DoctorData().Get();
+
+            if (!string.IsNullOrWhiteSpace(filter.Name))
+                doctors = doctors.Where(d => d.Name.ToLower().Contains(filter.Name.ToLower())).ToList();
+
+            if (!string.IsNullOrWhiteSpace(filter.Department))
+                doctors = doctors.Where(d => d.Department == filter.Department).ToList();
+
+            if (!string.IsNullOrWhiteSpace(filter.Specialty))
+                doctors = doctors.Where(d => d.Speciality == filter.Specialty).ToList();
+
+            if (!string.IsNullOrWhiteSpace(filter.Email))
+                doctors = doctors.Where(d => d.Email == filter.Email).ToList();
+
+            return GetMapper().Map<List<DoctorDTO>>(doctors);
+        }
+
     }
 }

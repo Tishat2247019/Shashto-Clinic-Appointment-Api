@@ -74,5 +74,46 @@ namespace BLL.Services
             }
             return false;
         }
+
+        public static PatientEngagementDTO GetEngagementStats()
+        {
+            var patients = DataAccess.PatientData().Get();
+            var appointments = DataAccess.AppointmentData().Get();
+
+            var stats = new PatientEngagementDTO
+            {
+                TotalPatients = patients.Count,
+
+               /* NewPatientsPerMonth = patients
+                    .GroupBy(p => p.CreatedAt.ToString("yyyy-MM"))
+                    .OrderByDescending(g => g.Key)
+                    .Take(6)
+                    .ToDictionary(g => g.Key, g => g.Count()),
+               */
+
+                MostFrequentPatients = appointments
+                    .GroupBy(a => a.PatientId)
+                    .Select(g => new
+                    {
+                        PatientId = g.Key,
+                        Count = g.Count()
+                    })
+                    .OrderByDescending(x => x.Count)
+                    .Take(5)
+                    .Select(x =>
+                    {
+                        var patient = patients.FirstOrDefault(p => p.Id == x.PatientId);
+                        return new FrequentPatientDTO
+                        {
+                            PatientId = x.PatientId,
+                            PatientName = patient?.Name ?? "Unknown",
+                            AppointmentCount = x.Count
+                        };
+                    })
+                    .ToList()
+            };
+
+            return stats;
+        }
     }
 }
