@@ -1,5 +1,7 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
+using BLL.Utils;
+using ClinicAppointmentScheduler.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +34,7 @@ namespace ClinicAppointmentScheduler.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+        /*
         [HttpPost]
         [Route("create")]
         public HttpResponseMessage Create(DoctorDTO doctor)
@@ -42,6 +45,35 @@ namespace ClinicAppointmentScheduler.Controllers
                 return Request.CreateResponse(HttpStatusCode.Created, "Doctor created successfully");
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError, "Creation failed");
+        }
+        */
+
+        [AdminOnly]
+        [HttpPost]
+        [Route("admin/create")]
+        public HttpResponseMessage create(DoctorRegistrationDTO doctor)
+        {
+            var adminId = (int)Request.Properties["UserId"];
+            var result = DoctorService.Register(doctor);
+            if (result)
+            {
+                AdminLogger.Log(adminId, "createDoctor", $"New Doctor Added");
+                return Request.CreateResponse(HttpStatusCode.Created, "Doctor Registration is successfull");
+            }
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Registration failed");
+        }
+
+
+        [HttpPost]
+        [Route("register")]
+        public HttpResponseMessage register(DoctorRegistrationDTO doctor)
+        {
+            var result = DoctorService.Register(doctor);
+            if (result)
+            {
+                return Request.CreateResponse(HttpStatusCode.Created, "Doctor Registered successfully");
+            }
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Registration failed");
         }
 
         [HttpPost]

@@ -12,7 +12,9 @@ namespace DAL.Interfaces
         List<Appointment> GetByDoctor(int doctorId);
         List<Appointment> GetByPatient(int patientId);
         List<Appointment> GetByDateRange(DateTime start, DateTime end);
-        bool IsSlotAvailable(int doctorId, DateTime appointmentTime);
+
+        //bool IsSlotAvailable(int doctorId, DateTime appointmentTime);
+        bool HasConflict(int doctorId, int patientId, DateTime appointmentDate);
         Appointment GetDetailed(int id); 
     }
 }

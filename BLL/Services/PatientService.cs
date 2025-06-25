@@ -47,9 +47,9 @@ namespace BLL.Services
             return DataAccess.PatientData().Update(entity);
         }
 
-        public static void Delete(int id)
+        public static bool Delete(int id)
         {
-            DataAccess.PatientData().Delete(id);
+           return DataAccess.PatientData().Delete(id);
         }
         public static bool Register(PatientRegistrationDTO regDto)
         {

@@ -1,10 +1,13 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
+using BLL.Utils;
+using ClinicAppointmentScheduler.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace ClinicAppointmentScheduler.Controllers
@@ -32,17 +35,94 @@ namespace ClinicAppointmentScheduler.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+
+        [AdminOnly]
         [HttpPost]
-        [Route("create")]
-        public HttpResponseMessage Create(AppointmentDTO appointment)
+        [Route("admin/create")]
+        public async Task<HttpResponseMessage> Create(AppointmentDTO dto)
         {
-            var result = AppointmentService.Create(appointment);
-            if (result)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.Created, "Appointment created successfully");
+                /* var userId = (int)Request.Properties["UserId"];
+                 var userType = Request.Properties["UserType"].ToString();
+
+                 if (userType != "Admin")
+                     return Request.CreateResponse(HttpStatusCode.Forbidden, "Only Admins can create new Appointment");
+                */
+
+                // dto.PatientId = userId;
+
+                var adminId = (int)Request.Properties["UserId"];
+
+                var success = await AppointmentService.CreateWithToken(dto);
+
+                if (success)
+                {
+                    AdminLogger.Log(adminId, "createAppointment", $"New Appointment Created");
+                    return Request.CreateResponse(HttpStatusCode.Created, "An appointment has been created for this patient");
+
+                }
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Appointment creation failed");
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Creation failed");
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
         }
+
+        [Logged]
+        [HttpPost]
+        [Route("book")]
+        public async Task<HttpResponseMessage> CreateAuthenticated(AppointmentDTO dto)
+        {
+            try
+            {
+                var userId = (int)Request.Properties["UserId"];
+                var userType = Request.Properties["UserType"].ToString();
+
+                if (userType != "Patient")
+                    return Request.CreateResponse(HttpStatusCode.Forbidden, "Only logged in patients can book appointments");
+
+                dto.PatientId = userId;
+                var success = await AppointmentService.CreateWithToken(dto);
+
+                if (success) return Request.CreateResponse(HttpStatusCode.Created, "Congratulations! Your Appointment has been created. Please check you email for the appoiontment token");
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Appointment creation failed");
+            }
+
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
+
+       /* [Logged]
+        [HttpPost]
+        [Route("book")]
+        public HttpResponseMessage BookAsPatient(AppointmentDTO dto)
+        {
+            var tokenType = Request.Properties["UserType"]?.ToString();
+            var tokenUserId = (int)Request.Properties["UserId"];
+
+            // Ensure only patient can book via this endpoint
+            if (tokenType != "Patient")
+            {
+                return Request.CreateResponse(HttpStatusCode.Forbidden, "Only patients can book appointments.");
+            }
+
+            // Override patient ID from token
+            dto.PatientId = tokenUserId;
+
+            var success = AppointmentService.Create(dto);
+            if (success)
+            {
+                return Request.CreateResponse(HttpStatusCode.Created, "Appointment booked successfully");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Failed to book appointment");
+        }
+       */
 
         [HttpPost]
         [Route("update")]

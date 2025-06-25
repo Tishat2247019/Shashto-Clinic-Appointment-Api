@@ -18,6 +18,8 @@ namespace BLL.Services
             {
                 cfg.CreateMap<Doctor, DoctorDTO>();
                 cfg.CreateMap<DoctorDTO, Doctor>();
+                cfg.CreateMap<DoctorRegistrationDTO, Doctor>();
+
             });
             return new Mapper(config);
         }
@@ -38,6 +40,30 @@ namespace BLL.Services
         {
             var doctor = GetMapper().Map<Doctor>(dto);
             return DataAccess.DoctorData().Create(doctor);
+        }
+
+        public static bool Register(DoctorRegistrationDTO dto)
+        {
+            var doctor = GetMapper().Map<Doctor>(dto);
+            var success = DataAccess.DoctorData().Create(doctor);
+            if (success)
+            {
+                var createdDoctor = DataAccess.DoctorData()
+                    .Get().LastOrDefault(p => p.Email == dto.Email);
+                if (createdDoctor != null)
+                {
+                    var login = new Login
+                    {
+                        Email = dto.Email,
+                        Password = dto.Password,
+                        UserType = "Doctor",
+                        UserId = createdDoctor.Id
+                    };
+                    DataAccess.LoginData().Create(login);
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static bool Update(DoctorDTO dto)

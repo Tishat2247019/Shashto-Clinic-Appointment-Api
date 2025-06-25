@@ -15,5 +15,8 @@ namespace DAL.EF
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Login> Logins { get; set; }
         public DbSet<Token> Tokens { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<AdminActivity> AdminActivities { get; set; }
+
     }
 }
