@@ -77,6 +77,17 @@ namespace ClinicAppointmentScheduler.Controllers
         }
 
         [HttpPost]
+        [Route("search")]
+        public HttpResponseMessage SearchDoctors(DoctorSearchDTO filter)
+        {
+            var result = DoctorService.Search(filter);
+            if (result.Count == 0 )
+            return Request.CreateResponse(HttpStatusCode.NotFound, "Sorry, No Doctor found!");
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        [HttpPost]
         [Route("update")]
         public HttpResponseMessage Update(DoctorDTO doctor)
         {
