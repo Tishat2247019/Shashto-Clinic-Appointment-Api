@@ -16,11 +16,11 @@ namespace DAL.Repos
             return db.SaveChanges() > 0;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var existing = Get(id);
             db.Appointments.Remove(existing);
-            db.SaveChanges();
+           return  db.SaveChanges() > 0;
         }
 
         public List<Appointment> Get()
@@ -56,9 +56,18 @@ namespace DAL.Repos
             return db.Appointments.Where(a => a.AppointmentDate >= start && a.AppointmentDate <= end).ToList();
         }
 
-        public bool IsSlotAvailable(int doctorId, DateTime appointmentTime)
+        /* public bool IsSlotAvailable(int doctorId, DateTime appointmentTime)
+         {
+             return !db.Appointments.Any(a => a.DoctorId == doctorId && a.AppointmentDate == appointmentTime);
+         }*/
+
+        public bool HasConflict(int doctorId, int patientId, DateTime appointmentDate)
         {
-            return !db.Appointments.Any(a => a.DoctorId == doctorId && a.AppointmentDate == appointmentTime);
+            return db.Appointments.Any(a =>
+                a.AppointmentDate == appointmentDate &&
+                (a.DoctorId == doctorId || a.PatientId == patientId) &&
+                a.Status != "Cancelled" // optional
+            );
         }
 
         public Appointment GetDetailed(int id)

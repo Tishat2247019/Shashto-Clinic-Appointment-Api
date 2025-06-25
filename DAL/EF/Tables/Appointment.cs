@@ -20,14 +20,13 @@ namespace DAL.EF.Tables
         public string Reason { get; set; }
 
         [Required, MaxLength(20), Column(TypeName = "VARCHAR")]
-        public string Status { get; set; }  // Scheduled, Completed, Cancelled
+        public string Status { get; set; } 
 
         [ForeignKey("Patient")]
         public int PatientId { get; set; }
 
         [ForeignKey("Doctor")]
         public int DoctorId { get; set; }
-
         public virtual Patient Patient { get; set; }
         public virtual Doctor Doctor { get; set; }
     }

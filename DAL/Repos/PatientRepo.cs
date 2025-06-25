@@ -16,11 +16,13 @@ namespace DAL.Repos
              return db.SaveChanges() > 0;
          }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var existing = Get(id);
+            if(existing == null)
+               return false;
             db.Patients.Remove(existing);
-            db.SaveChanges();
+               return db.SaveChanges() > 0 ;
         }
 
         public List<Patient> Get()
@@ -36,8 +38,17 @@ namespace DAL.Repos
         public bool Update(Patient obj)
         {
             var existing = Get(obj.Id);
-            db.Entry(existing).CurrentValues.SetValues(obj);
+            if (existing == null) return false;
+
+            if (!string.IsNullOrWhiteSpace(obj.Name)) existing.Name = obj.Name;
+            if (!string.IsNullOrWhiteSpace(obj.Email)) existing.Email = obj.Email;
+            if (!string.IsNullOrWhiteSpace(obj.Phone)) existing.Phone = obj.Phone;
+            if (obj.DOB != default) existing.DOB = obj.DOB;
+            if (!string.IsNullOrWhiteSpace(obj.Gender)) existing.Gender = obj.Gender;
+            if (!string.IsNullOrWhiteSpace(obj.Address)) existing.Address = obj.Address;
+
             return db.SaveChanges() > 0;
         }
+
     }
 }

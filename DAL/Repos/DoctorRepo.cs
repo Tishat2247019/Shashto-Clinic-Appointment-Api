@@ -16,11 +16,11 @@ namespace DAL.Repos
             return db.SaveChanges() > 0;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var existing = Get(id);
             db.Doctors.Remove(existing);
-            db.SaveChanges();
+            return db.SaveChanges() > 0;
         }
 
         public List<Doctor> Get()

@@ -17,3 +17,5 @@ D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.updat
 D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.AddAuthLogin.resources
 D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.chnagetokenlogic.resources
 D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.updatelogin.resources
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.addAdminTable.resources
+D:\Dot Net Project\ClinicAppointmentScheduler\DAL\obj\Debug\DAL.Migrations.addAdminActivity.resources

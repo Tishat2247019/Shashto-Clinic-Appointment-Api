@@ -17,7 +17,7 @@ namespace DAL.Repos
             return obj;
         }
 
-        public void Delete(string id)
+        public Token Delete(string id)
         {
             throw new NotImplementedException();
         }

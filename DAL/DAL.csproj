@@ -53,11 +53,14 @@
   <ItemGroup>
     <Compile Include="DataAccess.cs" />
     <Compile Include="EF\ClinicDbContext.cs" />
+    <Compile Include="EF\Tables\Admin.cs" />
+    <Compile Include="EF\Tables\AdminActivity.cs" />
     <Compile Include="EF\Tables\Appointment.cs" />
     <Compile Include="EF\Tables\Doctor.cs" />
     <Compile Include="EF\Tables\Login.cs" />
     <Compile Include="EF\Tables\Patient.cs" />
     <Compile Include="EF\Tables\Token.cs" />
+    <Compile Include="Interfaces\IAdminActivity.cs" />
     <Compile Include="Interfaces\IAppointmentRepo.cs" />
     <Compile Include="Interfaces\IAuth.cs" />
     <Compile Include="Interfaces\IDoctorRepo.cs" />
@@ -87,8 +90,18 @@
     <Compile Include="Migrations\202506250708518_updatelogin.designer.cs">
       <DependentUpon>202506250708518_updatelogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202506251328490_addAdminTable.cs" />
+    <Compile Include="Migrations\202506251328490_addAdminTable.designer.cs">
+      <DependentUpon>202506251328490_addAdminTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202506251854505_addAdminActivity.cs" />
+    <Compile Include="Migrations\202506251854505_addAdminActivity.designer.cs">
+      <DependentUpon>202506251854505_addAdminActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repos\AdminActivityRepo.cs" />
+    <Compile Include="Repos\AdminRepo.cs" />
     <Compile Include="Repos\AppointmentRepo.cs" />
     <Compile Include="Repos\DoctorRepo.cs" />
     <Compile Include="Repos\LoginRepo.cs" />
@@ -118,6 +131,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202506250708518_updatelogin.resx">
       <DependentUpon>202506250708518_updatelogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506251328490_addAdminTable.resx">
+      <DependentUpon>202506251328490_addAdminTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506251854505_addAdminActivity.resx">
+      <DependentUpon>202506251854505_addAdminActivity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

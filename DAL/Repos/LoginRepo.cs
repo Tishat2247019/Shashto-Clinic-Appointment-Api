@@ -22,7 +22,7 @@ namespace DAL.Repos
             return obj;
         }
 
-        public void Delete(string email)
+        public Login Delete(string email)
         {
             var login = Get(email);
             if (login != null)
@@ -30,6 +30,7 @@ namespace DAL.Repos
                 db.Logins.Remove(login);
                 db.SaveChanges();
             }
+            return login;
         }
 
         public List<Login> Get()

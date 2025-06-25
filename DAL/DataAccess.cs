@@ -35,5 +35,14 @@ namespace DAL
         {
             return new LoginRepo();
         }
+        public static IRepo<Admin, int, bool> AdminData()
+        {
+            return new AdminRepo();
+        }
+
+        public static IAdminActivity AdminActivityData()
+        {
+            return new AdminActivityRepo();
+        }
     }
 }
