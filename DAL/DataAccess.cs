@@ -15,15 +15,25 @@ namespace DAL
         {
             return new PatientRepo();
         }
-
         public static IRepo<Doctor, int, bool> DoctorData()
         {
             return new DoctorRepo();
         }
-
         public static IAppointmentRepo AppointmentData()
         {
             return new AppointmentRepo();
+        }
+        public static IRepo<Login, string, Login> LoginData()
+        {
+            return new LoginRepo();
+        }
+        public static IRepo<Token, string, Token> TokenData()
+        {
+            return new TokenRepo();
+        }
+        public static IAuth AuthData()
+        {
+            return new LoginRepo();
         }
     }
 }

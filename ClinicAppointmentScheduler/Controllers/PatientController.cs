@@ -1,5 +1,6 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
+using ClinicAppointmentScheduler.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,18 @@ namespace ClinicAppointmentScheduler.Controllers
         }
 
         [HttpPost]
+        [Route("register")]
+        public HttpResponseMessage Register(PatientRegistrationDTO patient)
+        {
+            var result = PatientService.Register(patient);
+            if (result)
+            {
+                return Request.CreateResponse(HttpStatusCode.Created, "Patient registered successfully");
+            }
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Registration failed");
+        }
+
+        [HttpPost]
         [Route("create")]
         public HttpResponseMessage Create(PatientDTO patient)
         {
@@ -58,10 +71,25 @@ namespace ClinicAppointmentScheduler.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
+        [Logged]
         public HttpResponseMessage Delete(int id)
         {
-            PatientService.Delete(id);
-            return Request.CreateResponse(HttpStatusCode.OK, "Patient deleted successfully");
+            if (!Request.Properties.ContainsKey("UserId") || !Request.Properties.ContainsKey("UserType"))
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Missing authentication info");
+            }
+
+            var userId = (int)Request.Properties["UserId"];
+            var userType = Request.Properties["UserType"].ToString();
+
+            if (userType == "Admin" || userId == id)
+            {
+                PatientService.Delete(id);
+                return Request.CreateResponse(HttpStatusCode.OK, "Patient deleted successfully");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.Forbidden, "You are not authorized to delete this patient.");
         }
+
     }
 }
