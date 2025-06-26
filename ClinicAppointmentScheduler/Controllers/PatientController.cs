@@ -66,7 +66,7 @@ namespace ClinicAppointmentScheduler.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.Created, "Patient registered successfully");
             }
-            return Request.CreateResponse(HttpStatusCode.BadRequest, "Registration failed");
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Registration failed. Please use a different Email");
         }
 
         [AdminOnly]
@@ -81,7 +81,7 @@ namespace ClinicAppointmentScheduler.Controllers
                 AdminLogger.Log(adminId, "createPatient", $"New Patient Added");
                 return Request.CreateResponse(HttpStatusCode.Created, "Patient creation successfull");
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Patient Creation failed");
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Patient Creation failed. Please User a different Email");
         }
 
 
@@ -107,18 +107,28 @@ namespace ClinicAppointmentScheduler.Controllers
             return Request.CreateResponse(HttpStatusCode.Forbidden, "You are not authorized to update this patient's information.");
         }
 
+        [AdminOnly]
+        [HttpPatch]
+        [Route("admin/update")]
+        public HttpResponseMessage UpdateByAdmin(PatientDTO patient)
+        {
+            var AdminId = (int)Request.Properties["UserId"];
+            var result = PatientService.Update(patient);
+               if (result)
+                {
+                    AdminLogger.Log(AdminId, "updatePatient", $"Patient information updated");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Patient updated successfully");
+                }
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Patient not found or update failed");
+
+        }
+
 
         [Logged]
         [HttpDelete]
         [Route("delete/{id}")]
         public HttpResponseMessage Delete(int id)
         {
-          /*  if (!Request.Properties.ContainsKey("UserId") || !Request.Properties.ContainsKey("UserType"))
-            {
-                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Missing authentication info");
-            }
-          */
-
             var userId = (int)Request.Properties["UserId"];
             var userType = Request.Properties["UserType"].ToString();
 

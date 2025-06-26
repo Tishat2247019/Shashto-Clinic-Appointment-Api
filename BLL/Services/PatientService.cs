@@ -53,6 +53,11 @@ namespace BLL.Services
         }
         public static bool Register(PatientRegistrationDTO regDto)
         {
+            var existingPatient = DataAccess.PatientData()
+                                  .Get().FirstOrDefault(p => p.Email == regDto.Email);
+            if (existingPatient != null)
+                return false; 
+
             var patient = GetMapper().Map<Patient>(regDto);
             var success = DataAccess.PatientData().Create(patient);
             if (success)

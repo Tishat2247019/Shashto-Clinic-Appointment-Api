@@ -15,6 +15,7 @@ namespace DAL.Interfaces
 
         //bool IsSlotAvailable(int doctorId, DateTime appointmentTime);
         bool HasConflict(int doctorId, int patientId, DateTime appointmentDate);
-        Appointment GetDetailed(int id); 
+        Appointment GetDetailed(int id);
+        bool Cancel(int appoiontmentId);
     }
 }

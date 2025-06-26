@@ -31,7 +31,6 @@ namespace BLL.Services
         {
             var data = DataAccess.AppointmentData().Get();
 
-            // Include navigation properties manually if needed
             foreach (var appt in data)
             {
                 appt.Patient = DataAccess.PatientData().Get(appt.PatientId);
@@ -52,6 +51,20 @@ namespace BLL.Services
 
             return GetMapper().Map<AppointmentDTO>(appt);
         }
+
+        public static List<AppointmentDTO> GetAllByPatient(int patientId)
+        {
+            var appts = DataAccess.AppointmentData().GetByPatient(patientId);
+
+            foreach (var appt in appts)
+            {
+                appt.Patient = DataAccess.PatientData().Get(appt.PatientId);
+                appt.Doctor = DataAccess.DoctorData().Get(appt.DoctorId);
+            }
+
+            return GetMapper().Map<List<AppointmentDTO>>(appts);
+        }
+
 
         public static bool Create(AppointmentDTO dto)
         {
@@ -90,7 +103,6 @@ namespace BLL.Services
                 throw new Exception("Appointment conflict detected. Please choose a different time.");
             }
 
-
             var entity = GetMapper().Map<Appointment>(dto);
             var created = DataAccess.AppointmentData().Create(entity);
 
@@ -99,14 +111,11 @@ namespace BLL.Services
                // var patient = DataAccess.PatientData().Get(dto.PatientId);
                // var doctor = DataAccess.DoctorData().Get(dto.DoctorId);
 
-                // 1. Generate PDF
                 byte[] pdf = PDFHelper.GenerateAppointmentToken(patient.Name, doctor.Name, dto.AppointmentDate, entity.Id.ToString());
 
-                // 2. Upload to Supabase
                 string fileName = $"appointment_token_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
                 string pdfUrl = await SupabaseUploader.UploadPDF(pdf, fileName);
 
-                // 3. Send Email
                 string subject = "Appointment Confirmation";
                 string body = $@"
 <!DOCTYPE html>
@@ -184,6 +193,11 @@ namespace BLL.Services
         public static void Delete(int id)
         {
             DataAccess.AppointmentData().Delete(id);
+        }
+
+        public static bool CancelAppointment(int appointmentId)
+        {
+            return DataAccess.AppointmentData().Cancel(appointmentId);
         }
 
         public static AnalyticsDTO GetStats()

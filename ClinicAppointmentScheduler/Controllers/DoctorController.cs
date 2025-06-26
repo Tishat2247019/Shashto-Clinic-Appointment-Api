@@ -60,7 +60,7 @@ namespace ClinicAppointmentScheduler.Controllers
                 AdminLogger.Log(adminId, "createDoctor", $"New Doctor Added");
                 return Request.CreateResponse(HttpStatusCode.Created, "Doctor Registration is successfull");
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Registration failed");
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Registration failed. Please use a different Email");
         }
 
 
@@ -73,7 +73,7 @@ namespace ClinicAppointmentScheduler.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.Created, "Doctor Registered successfully");
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Registration failed");
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Registration failed. Please use a Different Email");
         }
 
         [HttpPost]
@@ -99,8 +99,9 @@ namespace ClinicAppointmentScheduler.Controllers
             return Request.CreateResponse(HttpStatusCode.NotFound, "Doctor not found or update failed");
         }
 
-        [HttpPost]
-        [Route("delete/{id}")]
+        [AdminOnly]
+        [HttpDelete]
+        [Route("admin/delete/{id}")]
         public HttpResponseMessage Delete(int id)
         {
             DoctorService.Delete(id);

@@ -40,7 +40,6 @@ namespace BLL.Utils
                             columns.RelativeColumn();
                         });
 
-                        // Header row
                         table.Header(header =>
                         {
                             header.Cell().Element(CellStyle).Text("Admin Id").Bold();
@@ -48,7 +47,7 @@ namespace BLL.Utils
                             header.Cell().Element(CellStyle).Text("Timestamp").Bold();
                         });
 
-                        // Data rows
+                        
                         foreach (var log in logs)
                         {
                             table.Cell().Element(CellStyle).Text(log.AdminId.ToString());
