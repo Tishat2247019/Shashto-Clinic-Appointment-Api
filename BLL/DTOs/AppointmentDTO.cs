@@ -14,13 +14,12 @@ namespace BLL.DTOs
 
         public string Reason { get; set; }
 
-        public string Status { get; set; }  // Scheduled, Cancelled, Completed
+       public string Status { get; set; }  
 
         public int PatientId { get; set; }
 
         public int DoctorId { get; set; }
 
-        // Optional (for showing names in Get APIs)
         public string PatientName { get; set; }
 
         public string DoctorName { get; set; }

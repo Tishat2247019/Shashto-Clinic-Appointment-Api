@@ -29,7 +29,7 @@ namespace ClinicAppointmentScheduler.Controllers
         [Route("api/logout")]
         public HttpResponseMessage Logout()
         {
-            var tokenKey = Request.Headers.Authorization?.ToString();
+            var tokenKey = Request.Headers.Authorization.Parameter;
             var updated = AuthService.Logout(tokenKey);
             return Request.CreateResponse(HttpStatusCode.OK, updated);
         }

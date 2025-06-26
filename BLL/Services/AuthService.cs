@@ -62,7 +62,6 @@ namespace BLL.Services
             var token = DataAccess.TokenData().Get(key);
             if (token == null) return null;
 
-            // Optional: expire 2 mins before current time (to simulate logout logic)
             token.ExpiredAt = DateTime.Now.AddMinutes(-2);
             var updatedToken = DataAccess.TokenData().Update(token);
             return GetMapper().Map<TokenDTO>(updatedToken);

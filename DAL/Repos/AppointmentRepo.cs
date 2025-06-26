@@ -2,6 +2,7 @@
 using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,8 @@ namespace DAL.Repos
     {
         public bool Create(Appointment obj)
         {
-            db.Appointments.Add(obj);
+            var appointmentobj = db.Appointments.Add(obj);
+            appointmentobj.Status = "Scheduled";
             return db.SaveChanges() > 0;
         }
 
@@ -28,6 +30,8 @@ namespace DAL.Repos
             return db.Appointments.ToList();
         }
 
+
+
         public Appointment Get(int id)
         {
             return db.Appointments.Find(id);
@@ -40,7 +44,6 @@ namespace DAL.Repos
             return db.SaveChanges() > 0;
         }
 
-        // Extra methods (optional for now)
         public List<Appointment> GetByDoctor(int doctorId)
         {
             return db.Appointments.Where(a => a.DoctorId == doctorId).ToList();
@@ -77,5 +80,14 @@ namespace DAL.Repos
                      .Include("Doctor")
                      .FirstOrDefault(a => a.Id == id);
         }
+        public bool Cancel(int appointmentId)
+        {
+            var appt = Get(appointmentId);
+            if (appt == null) return false;
+
+            appt.Status = "Cancelled";
+            return db.SaveChanges() > 0;
+        }
+
     }
 }
